@@ -299,35 +299,6 @@ public class JGitBlameCommandTest {
     verify(analysisWarnings).addUnique(startsWith("Shallow clone detected"));
   }
 
-  @Test
-  public void return_early_when_clone_with_reference_detected() throws IOException {
-    File projectDir = temp.newFolder();
-    javaUnzip("dummy-git-reference-clone.zip", projectDir);
-
-    Path baseDir = projectDir.toPath().resolve("dummy-git2");
-
-    DefaultFileSystem fs = new DefaultFileSystem(baseDir);
-    when(input.fileSystem()).thenReturn(fs);
-
-    DefaultInputFile inputFile = new TestInputFileBuilder("foo", DUMMY_JAVA).setModuleBaseDir(baseDir).build();
-    when(input.filesToBlame()).thenReturn(Collections.singleton(inputFile));
-
-    // register warning
-    AnalysisWarnings analysisWarnings = mock(AnalysisWarnings.class);
-    JGitBlameCommand jGitBlameCommand = new JGitBlameCommand(new PathResolver(), analysisWarnings);
-    TestBlameOutput output = new TestBlameOutput();
-    jGitBlameCommand.blame(input, output);
-
-    assertThat(logTester.logs()).first()
-      .matches(s -> s.contains("This git repository references another local repository which is not well supported"));
-
-    // contains commits referenced from the old clone and commits in the new clone
-    assertThat(output.blame.keySet()).contains(inputFile);
-    assertThat(output.blame.get(inputFile).stream().map(BlameLine::revision))
-      .containsOnly("6b3aab35a3ea32c1636fee56f996e677653c48ea", "843c7c30d7ebd9a479e8f1daead91036c75cbc4e", "0d269c1acfb8e6d4d33f3c43041eb87e0df0f5e7");
-    verifyZeroInteractions(analysisWarnings);
-  }
-
   private JGitBlameCommand newJGitBlameCommand() {
     return new JGitBlameCommand(new PathResolver(), mock(AnalysisWarnings.class));
   }
