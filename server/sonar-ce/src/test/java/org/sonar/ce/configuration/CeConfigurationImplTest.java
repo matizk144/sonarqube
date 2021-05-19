@@ -39,12 +39,12 @@ public class CeConfigurationImplTest {
 
   @Test
   public void getWorkerCount_returns_1_when_there_is_no_WorkerCountProvider() {
-    assertThat(new CeConfigurationImpl(EMPTY_CONFIGURATION).getWorkerCount()).isEqualTo(1);
+    assertThat(new CeConfigurationImpl(EMPTY_CONFIGURATION).getWorkerCount()).isEqualTo(5);
   }
 
   @Test
   public void getWorkerMaxCount_returns_1_when_there_is_no_WorkerCountProvider() {
-    assertThat(new CeConfigurationImpl(EMPTY_CONFIGURATION).getWorkerMaxCount()).isEqualTo(1);
+    assertThat(new CeConfigurationImpl(EMPTY_CONFIGURATION).getWorkerMaxCount()).isEqualTo(5);
   }
 
   @Test
@@ -102,7 +102,7 @@ public class CeConfigurationImplTest {
   public void getCleanCeTasksInitialDelay_returns_0() {
     assertThat(new CeConfigurationImpl(EMPTY_CONFIGURATION).getCleanTasksInitialDelay())
       .isEqualTo(0L);
-    workerCountProvider.set(1);
+    workerCountProvider.set(5);
     assertThat(new CeConfigurationImpl(EMPTY_CONFIGURATION, workerCountProvider).getCleanTasksInitialDelay())
       .isEqualTo(0L);
   }
@@ -111,7 +111,7 @@ public class CeConfigurationImplTest {
   public void getCleanCeTasksDelay_returns_2() {
     assertThat(new CeConfigurationImpl(EMPTY_CONFIGURATION).getCleanTasksDelay())
       .isEqualTo(2L);
-    workerCountProvider.set(1);
+    workerCountProvider.set(5);
     assertThat(new CeConfigurationImpl(EMPTY_CONFIGURATION, workerCountProvider).getCleanTasksDelay())
       .isEqualTo(2L);
   }
@@ -130,6 +130,6 @@ public class CeConfigurationImplTest {
   }
 
   private static int randomValidWorkerCount() {
-    return 1 + Math.abs(new Random().nextInt(10));
+    return 5 + Math.abs(new Random().nextInt(5));
   }
 }

@@ -31,9 +31,9 @@ import static org.sonar.process.ProcessProperties.Property.CE_GRACEFUL_STOP_TIME
  * Immutable implementation of {@link CeConfiguration} initialized at startup from {@link Configuration}.
  */
 public class CeConfigurationImpl implements CeConfiguration {
-  private static final int DEFAULT_WORKER_THREAD_COUNT = 1;
+  private static final int DEFAULT_WORKER_THREAD_COUNT = 5;
   private static final int MAX_WORKER_THREAD_COUNT = 10;
-  private static final int DEFAULT_WORKER_COUNT = 1;
+  private static final int DEFAULT_WORKER_COUNT = 5;
   // 2 seconds
   private static final long DEFAULT_QUEUE_POLLING_DELAY = 2 * 1000L;
   // 0 minute
